@@ -1,0 +1,23 @@
+{
+  "name": "colorizer-service",
+  "private": true,
+  "scripts": {
+    "dev": "aixyz dev",
+    "dev:direct": "node scripts/dev-direct.mjs",
+    "start": "bun run scripts/dev-direct.mjs",
+    "build": "aixyz build",
+    "register": "aixyz erc-8004 register",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-sdk/openai": "^3",
+    "ai": "^6",
+    "aixyz": "^0",
+    "sharp": "^0.33",
+    "zod": "^4"
+  },
+  "devDependencies": {
+    "@types/bun": "^1",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,26 @@
+# Environment files — never commit secrets
+.env
+.env.local
+.env.*.local
+*.local
+
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+.aixyz/
+
+# Demo output
+output.jpg
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Empty leftover dir — delete manually after reboot if it persists
+image-agent-demo/
+
+# Frontend — keep public/ tracked, exclude secrets and build artifacts
+frontend/dist/
+!frontend/public/

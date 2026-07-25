@@ -1,0 +1,8 @@
+{
+  "build": { "builder": "DOCKERFILE" },
+  "deploy": {
+    "startCommand": "bun run scripts/dev-direct.mjs",
+    "healthcheckPath": "/",
+    "restartPolicyType": "ON_FAILURE"
+  }
+}

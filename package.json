@@ -1,0 +1,13 @@
+{
+  "name": "erc8004-agent-demo",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix colorizer-service && npm install --prefix image-generator && npm install --prefix erc8004 && npm install --prefix frontend",
+    "test": "bun test tests/",
+    "typecheck": "npm run typecheck --prefix colorizer-service && npm run typecheck --prefix image-generator && npm run typecheck --prefix erc8004 && npm run typecheck --prefix frontend",
+    "ci": "npm run typecheck && bun test tests/"
+  },
+  "devDependencies": {
+    "sharp": "^0.33"
+  }
+}

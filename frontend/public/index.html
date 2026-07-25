@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ERC-8004 + x402 Agent Demo</title>
+  <meta name="description" content="A production-style reference implementation of discoverable AI agents, x402 USDC payments, and ERC-8004 identity, reputation, and validation on Base Sepolia." />
+  <meta name="theme-color" content="#080b12" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="ERC-8004 + x402 Agent Demo" />
+  <meta property="og:description" content="Watch one AI agent discover, pay, and verify another agent through open protocols." />
+  <meta property="og:url" content="https://erc8004-agent-demo-five.vercel.app/" />
+  <link rel="canonical" href="https://erc8004-agent-demo-five.vercel.app/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ── Background grid ─────────────────────────────────────── -->
+  <div class="bg-grid"></div>
+
+  <div class="page-wrap">
+
+    <!-- ── Header ──────────────────────────────────────────────── -->
+    <header class="header">
+      <div class="header-top">
+        <div class="logo">
+          <span class="logo-icon">⬡</span>
+          <div>
+            <h1 class="logo-title">ERC-8004 + x402</h1>
+            <p class="logo-sub">AI Agent Payment Demo</p>
+          </div>
+        </div>
+        <div class="badges">
+          <span class="badge badge-green">CI verified</span>
+          <span class="badge badge-blue">Base Sepolia</span>
+          <span class="badge badge-orange">ERC-8004</span>
+          <span class="badge badge-green">Testnet USDC</span>
+        </div>
+      </div>
+      <p class="header-desc">
+        Agent 1 discovers Agent 2 on-chain via ERC-8004, pays $0.01 USDC via x402,
+        and receives a grayscale-converted image with a verifiable payment, reputation record, and validation trail.
+      </p>
+    </header>
+
+    <!-- ── Input card ───────────────────────────────────────────── -->
+    <section class="card input-card">
+      <div class="tabs" role="tablist">
+        <button class="tab active" id="tab-prompt" data-tab="prompt" role="tab" aria-selected="true" aria-controls="panel-prompt" tabindex="0">
+          <span class="tab-icon">✦</span> Text Prompt
+        </button>
+        <button class="tab" id="tab-upload" data-tab="upload" role="tab" aria-selected="false" aria-controls="panel-upload" tabindex="-1">
+          <span class="tab-icon">↑</span> Upload Image
+        </button>
+      </div>
+
+      <!-- Text prompt panel -->
+      <div class="tab-panel active" id="panel-prompt" role="tabpanel" aria-labelledby="tab-prompt">
+        <textarea
+          id="prompt-input"
+          class="prompt-input"
+          placeholder="Describe an image…"
+          rows="3"
+        ></textarea>
+        <div class="example-prompts">
+          <span class="examples-label">Try:</span>
+          <button class="example-chip" data-prompt="a golden retriever in a sunlit meadow">golden retriever</button>
+          <button class="example-chip" data-prompt="a futuristic city skyline at night with neon lights">neon city</button>
+          <button class="example-chip" data-prompt="a cat sitting on a wooden chair in a cozy library">cat in library</button>
+          <button class="example-chip" data-prompt="an astronaut floating in deep space near a nebula">astronaut</button>
+        </div>
+      </div>
+
+      <!-- Upload panel -->
+      <div class="tab-panel" id="panel-upload" role="tabpanel" aria-labelledby="tab-upload">
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload an image">
+          <div class="dropzone-content">
+            <div class="dropzone-icon">⬆</div>
+            <p class="dropzone-text">Drag &amp; drop an image here</p>
+            <p class="dropzone-sub">or</p>
+            <label class="btn btn-outline" for="file-input">Browse files</label>
+            <input type="file" id="file-input" accept="image/*" hidden />
+          </div>
+          <div class="dropzone-preview hidden" id="dropzone-preview">
+            <img id="preview-img" src="" alt="Preview" />
+            <button class="remove-file" id="remove-file" type="button" aria-label="Remove uploaded image">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="access-row">
+        <label for="access-token">Access token <span>only if enabled by the owner</span></label>
+        <input id="access-token" type="password" autocomplete="off" placeholder="Optional service token" />
+      </div>
+
+      <button class="btn btn-primary" id="generate-btn">
+        <span class="btn-text">Run Agent Pipeline</span>
+        <span class="btn-arrow">→</span>
+        <span class="btn-spinner hidden">◌</span>
+      </button>
+    </section>
+
+    <!-- ── Pipeline log ─────────────────────────────────────────── -->
+    <section class="card terminal-card hidden" id="terminal-section">
+      <div class="terminal-header">
+        <div class="terminal-dots">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+        <span class="terminal-title">PIPELINE LOG</span>
+        <div class="step-indicator" id="step-indicator">
+          <span id="step-text">0 / 5</span>
+        </div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="terminal-body" id="terminal-body" aria-live="polite"></div>
+    </section>
+
+    <!-- ── Results grid ─────────────────────────────────────────── -->
+    <section class="results-grid hidden" id="results-section">
+
+      <!-- Original image -->
+      <div class="card result-card">
+        <div class="result-label">
+          <span class="result-icon">◈</span>
+          <span>Original</span>
+          <span class="result-badge">GPT Image 2</span>
+        </div>
+        <div class="image-wrap">
+          <img id="input-image" src="" alt="Original" class="result-img" />
+        </div>
+        <p class="result-meta" id="input-meta">GPT Image 2 · optimized PNG</p>
+      </div>
+
+      <!-- Grayscale output -->
+      <div class="card result-card">
+        <div class="result-label">
+          <span class="result-icon">◈</span>
+          <span>Grayscale</span>
+          <span class="result-badge agent2">Agent 2</span>
+        </div>
+        <div class="image-wrap">
+          <img id="output-image" src="" alt="Grayscale" class="result-img" />
+        </div>
+        <p class="result-meta" id="output-meta">Base Sepolia · USDC paid</p>
+      </div>
+
+      <!-- On-chain proof -->
+      <div class="card result-card proof-card">
+        <div class="result-label">
+          <span class="result-icon">⬡</span>
+          <span>On-chain Proof</span>
+        </div>
+
+        <div class="proof-items" id="proof-items">
+          <!-- Filled dynamically -->
+        </div>
+
+        <div class="agent-identity" id="agent-identity">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── Reputation panel ─────────────────────────────────────── -->
+    <section class="card reputation-card" id="reputation-section">
+      <div class="rep-header">
+        <span class="rep-icon">◎</span>
+        <div>
+          <h3 class="rep-title">Agent Reputation</h3>
+          <p class="rep-sub">ERC-8004 ReputationRegistry · Base Sepolia</p>
+        </div>
+        <button class="btn btn-outline btn-sm" id="refresh-rep" type="button" aria-label="Refresh on-chain reputation">↻ Refresh</button>
+      </div>
+      <div class="rep-body" id="rep-body">
+        <div class="rep-loading">Loading on-chain data…</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>ERC-8004 + x402 Reference Implementation</span>
+      <a href="https://github.com/hpo1o/erc8004-agent-demo" target="_blank" rel="noopener">Source ↗</a>
+      <a href="https://github.com/erc-8004/erc-8004-contracts" target="_blank" rel="noopener">ERC-8004 Contracts ↗</a>
+      <a href="https://x402.org" target="_blank" rel="noopener">x402 Protocol ↗</a>
+    </footer>
+
+  </div><!-- /page-wrap -->
+
+  <script src="app.js"></script>
+</body>
+</html>

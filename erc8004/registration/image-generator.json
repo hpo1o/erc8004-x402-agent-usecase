@@ -1,0 +1,36 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Image Generator",
+  "description": "Orchestrator agent that generates images from text prompts using GPT Image 2, then sends them to colorizer-service (Colorizer Service agent) via A2A protocol for grayscale conversion. Pays $0.01 USDC per colorization request via x402 on Base Sepolia (EIP-3009 transferWithAuthorization). Currently operates as a CLI tool; does not expose HTTP service endpoints.",
+  "image": "",
+  "active": true,
+  "x402Support": false,
+  "supportedTrust": [
+    "reputation"
+  ],
+  "services": [],
+  "skills": [
+    {
+      "id": "generate-and-grayscale",
+      "name": "Generate and Grayscale",
+      "description": "Takes a text prompt, generates a 768x768 optimized image with GPT Image 2, sends it to colorizer-service via A2A + x402, and saves the grayscale result as output.jpg.",
+      "tags": [
+        "image-generation",
+        "dalle",
+        "a2a",
+        "orchestration",
+        "x402"
+      ],
+      "examples": [
+        "a golden retriever in a sunlit meadow",
+        "a futuristic city at night"
+      ]
+    }
+  ],
+  "registrations": [
+    {
+      "agentRegistry": "eip155:84532:0x8004A818BFB912233c491871b3d84c89A494BD9e",
+      "agentId": "2215"
+    }
+  ]
+}

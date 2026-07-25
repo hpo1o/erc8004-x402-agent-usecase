@@ -1,0 +1,20 @@
+{
+  "name": "erc8004",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check":      "tsx scripts/check.ts",
+    "register":   "tsx scripts/register.ts",
+    "discover":   "tsx scripts/discovery.ts",
+    "reputation": "tsx scripts/read-reputation.ts",
+    "typecheck":  "tsc --noEmit"
+  },
+  "dependencies": {
+    "viem": "^2"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsx":        "^4",
+    "typescript": "^5"
+  }
+}

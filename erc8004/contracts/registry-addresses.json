@@ -1,0 +1,11 @@
+{
+  "_source": "https://github.com/erc-8004/erc-8004-contracts — VANITY_DEPLOYMENT_GUIDE.md",
+  "_note": "Addresses are deterministic via CREATE2 (SAFE Singleton Factory 0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7). Same on all testnets and mainnets. Explorer: https://sepolia.basescan.org/address/<address>",
+
+  "network": "base-sepolia",
+  "chainId": 84532,
+
+  "identityRegistry": "0x8004A818BFB912233c491871b3d84c89A494BD9e",
+  "reputationRegistry": "0x8004B663056A597Dffe9eCcC1965A193B7388713",
+  "validationRegistry": "0x8004Cb1BF31DAf7788923b405b754f57acEB4272"
+}
