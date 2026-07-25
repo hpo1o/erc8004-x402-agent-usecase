@@ -1,6 +1,6 @@
 # ERC-8004 + x402 Agent Demo
 
-[![CI](https://github.com/hpo1o/erc8004-agent-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/hpo1o/erc8004-agent-demo/actions/workflows/ci.yml)
+[![CI](https://github.com/hpo1o/erc8004-x402-agent-usecase/actions/workflows/ci.yml/badge.svg)](https://github.com/hpo1o/erc8004-x402-agent-usecase/actions/workflows/ci.yml)
 ![Network](https://img.shields.io/badge/network-Base%20Sepolia-2563eb)
 ![ERC-8004](https://img.shields.io/badge/ERC--8004-identity%20%7C%20reputation%20%7C%20validation-f59e0b)
 ![x402](https://img.shields.io/badge/x402-USDC%20payments-10b981)
@@ -115,8 +115,8 @@ The deterministic CREATE2 deployment uses the same registry addresses across sup
 
 ### Install
 
-    git clone https://github.com/hpo1o/erc8004-agent-demo.git
-    cd erc8004-agent-demo
+    git clone https://github.com/hpo1o/erc8004-x402-agent-usecase.git
+    cd erc8004-x402-agent-usecase
     npm run install:all
 
 ### Configure the CLI
@@ -249,7 +249,7 @@ A production deployment could replace payer validation with zkML, a TEE oracle, 
 
 ## Project structure
 
-    erc8004-agent-demo/
+    erc8004-x402-agent-usecase/
     ├── api/                    Root-level Vercel compatibility functions
     ├── colorizer-service/      Standalone paid Agent 2
     ├── erc8004/                Registry ABIs, metadata, and on-chain scripts
