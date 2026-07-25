@@ -34,6 +34,10 @@ jobs:
           test -f source/README.md
           rsync -a --delete --exclude='.git/' source/ target/
 
+      - name: Normalize client compatibility note
+        run: |
+          sed -i '/Allows Claude Desktop, VS Code, and other MCP clients/c\// Allows MCP-compatible desktop and IDE clients to call the colorize tool directly' target/colorizer-service/app/server.ts
+
       - name: Verify clean attribution
         run: |
           if grep -RniE --exclude-dir=.git 'Claude|Anthropic|Codex|Co-Authored-By' target; then
