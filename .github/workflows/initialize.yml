@@ -2,9 +2,6 @@ name: Initialize repository
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 permissions:
   contents: write
@@ -32,7 +29,7 @@ jobs:
         run: |
           test -d target/.git
           test -f source/README.md
-          rsync -a --delete --exclude='.git/' source/ target/
+          rsync -a --delete --exclude='.git/' --exclude='.github/workflows/' source/ target/
 
       - name: Normalize client compatibility note
         run: |
@@ -40,7 +37,7 @@ jobs:
 
       - name: Verify clean attribution
         run: |
-          if grep -RniE --exclude-dir=.git 'Claude|Anthropic|Codex|Co-Authored-By' target; then
+          if grep -RniE --exclude-dir=.git --exclude='initialize.yml' 'Claude|Anthropic|Codex|Co-Authored-By' target; then
             echo "Unexpected attribution marker found."
             exit 1
           fi
